@@ -1,48 +1,207 @@
 ---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import ServiceCard from '../components/ServiceCard.astro';
+import UseCaseCard from '../components/UseCaseCard.astro';
+import { NAV_LINKS, SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+import profilePic from '../assets/profile-pic.jpg';
+
+const recentPosts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+).slice(0, 4);
+
+const contactLink = NAV_LINKS.CONTACT;
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			.hero {
+				background-color: var(--cosmic-void);
+				color: var(--guide-light);
+				text-align: center;
+				padding: 4em 2em;
+			}
+			.hero h1 {
+				font-size: 3.5em;
+				margin-bottom: 0.5em;
+				color: var(--guide-light);
+			}
+			.hero p {
+				font-size: 1.5em;
+				max-width: 800px;
+				margin: 0 auto 2em auto;
+			}
+			.cta-button {
+				display: inline-block;
+				background-color: var(--golden-touch);
+				color: var(--cosmic-void);
+				padding: 1em 2em;
+				border-radius: 8px;
+				text-decoration: none;
+				font-weight: bold;
+				font-size: 1.2em;
+				transition: background-color 0.3s ease;
+			}
+			.cta-button:hover {
+				background-color: var(--nitrogen-red);
+				color: var(--guide-light);
+			}
+
+			.about-me {
+				background-color: var(--cosmic-void);
+				color: var(--guide-light);
+				padding: 4em 2em;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 2em;
+			}
+			.about-me .content {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				gap: 2em;
+				max-width: 1000px;
+			}
+			.about-me img {
+				width: 200px;
+				height: 200px;
+				border-radius: 50%;
+				object-fit: cover;
+				box-shadow: var(--box-shadow);
+			}
+			.about-me h2 {
+				color: var(--oxygen-blue);
+				font-size: 2.5em;
+				margin-bottom: 0.5em;
+			}
+			.about-me p {
+				font-size: 1.1em;
+				line-height: 1.8;
+			}
+
+			.services {
+				background-color: var(--cosmic-void);
+				color: var(--guide-light);
+				padding: 4em 2em;
+				text-align: center;
+			}
+			.services h2 {
+				color: var(--golden-touch);
+				font-size: 2.5em;
+				margin-bottom: 1.5em;
+			}
+			.service-cards {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+				gap: 2em;
+				max-width: 1200px;
+				margin: 0 auto;
+			}
+
+			.recent-insights {
+				background-color: var(--cosmic-void);
+				color: var(--guide-light);
+				padding: 4em 2em;
+				text-align: center;
+			}
+			.recent-insights h2 {
+				color: var(--oxygen-blue);
+				font-size: 2.5em;
+				margin-bottom: 1.5em;
+			}
+			.post-list {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+				gap: 2em;
+				max-width: 1200px;
+				margin: 0 auto;
+			}
+
+			@media (max-width: 768px) {
+				.hero h1 {
+					font-size: 2.5em;
+				}
+				.hero p {
+					font-size: 1.2em;
+				}
+				.about-me .content {
+					flex-direction: column;
+				}
+				.about-me img {
+					width: 150px;
+					height: 150px;
+				}
+				.about-me h2, .services h2, .recent-insights h2 {
+					font-size: 2em;
+				}
+			}
+		</style>
 	</head>
 	<body>
 		<Header />
 		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This
-				template serves as a lightweight, minimally-styled starting point for anyone looking to build
-				a personal website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
+			<!-- TODO implementar y agregar breadcrumbs -->
+			<!-- TODO agregar robots.txt -->
+			<!-- Hacer todo el repositorio internacional, q se pueda cambiar de tema claro a tema oscuro con un boton flotante en cada pagina y q todo el contenido este disponible al menos en español e ingles -->
+			<!-- TODO actualizar readme para q refleje el contenido real del repositorio, pero deja la referencia al creador original del template al inicio 'Esto fue construido a partir del template de...' o algo asi -->
+			<section class="hero">
+				<h1>Consultoría MyCn18: Donde la Visión Adquiere Forma.</h1>
+				<p>Implementa MyCn18 a la medida de tu negocio con la guía experta de su arquitecto principal. Flujos sólidos, estables y escalables garantizados.</p>
+				<!-- TODO quiero q al mandarme al contact llegue con el template de consultoría -->
+				<a href={contactLink} class="cta-button">Agendar una Consulta sobre MyCn18</a>
+			</section>
+			<!-- TODO mencionar en alguna parte q el proyecto apenas esta comenzando y como soy yo solo va a un paso lento, pero q el backend sera open source y esta abierto a contribuidores, solicitudes de features y etc, poner enlace al repositorio https://github.com/MyCn18-automation/mycn18-core-orquestrator y que si quieren pueden donar, los enlaces de donacion estan en DONATION_LINKS en consts -->
+			<section class="about-me">
+				<div class="content">
+					<Image src={profilePic} alt="Luis Alberto Hernández Roselló" />
+					<!-- TODO cambiar el estilo de la foto para q el tamaño sea más acorde al texto, tal vez se vería mejor la imagen arriba del texto en lugar de al lado -->
+					<div>
+						<h2>Sobre Mí</h2>
+						<p>Soy Luis Alberto Hernández Roselló, el arquitecto y creador detrás de MyCn18. Tengo gran pasión por no sólo por el desarrollo de software, sino por lo simple q es cambiar el mundo solamente pensando y tecleando en una pc, en especial al transformar procesos complejos en soluciones útiles para la mayor cantidad de personas posible. Aunque el camino es desafiante y la competencia inmensa, mi motivación es genuinamente ayudar a las personas a construir sistemas que realmente funcionen, desde flujos de automatización hasta lógica reutilizable para desarrollo de sistemas, aportando una perspectiva fresca y desafiando los paradigmas existentes. Como mente pensante detrás del proyecto, conozco MyCn18 a fondo y estoy aquí para guiarte en cada nivel de abstracción y cada paso de su uso.</p>
+						<!-- TODO acomodar el texto para q no se vea un bloque enorme, q sea más atractivo de leer -->
+					</div>
+				</div>
+			</section>
+
+			<section class="services">
+				<h2>Principal visión de MyCn18 como ecosistema</h2>
+				<!-- TODO aqui incluir un card por cada nivel de abstraccion de los 4, osea cada forma de usar mycn18, ademas de lo de testeabilidad y control de versiones, lo de q no se cobrara por cantidad de tareas por flujo, sino por la complejidad de estos, tambien q se dara la opcion de usar librerias y sdk personalizados del usuario (para experimentados) mediante nodos custom, tambien la opcion de descargar el codigo fuente para q no dependan de mi ecosistema, q pienso implementar sdks para uso comun de usuarios dev experimentados asi ellos no tendran necesidad de complicar su codigo demasiado, y si quieren complicarlo podran usar nodos custom tambien para eso -->
+				<div class="service-cards">
+					<ServiceCard
+						title="Diseño de Flujos Algorítmicos (Nivel 2)"
+						description="Modelado de lógica de negocio compleja (bucles, condicionales) en el canvas visual de MyCn18."
+					/>
+					<ServiceCard
+						title="Extensibilidad y Nodos (Nivel 3)"
+						description="Desarrollo y whitelisting de Librerías Reutilizables y Nodos customizados (NPM packages) para integraciones empresariales."
+					/>
+					<ServiceCard
+						title="Estrategia AI-First (Nivel 4)"
+						description="Consultoría para integrar la IA generativa en la creación de flujos y automatización (Prompt-to-Flow)."
+					/>
+					<ServiceCard
+						title="MyCn18 Git-Ops (Testing y Versiones)"
+						description="Implementación de frameworks de testing visual y configuración de versionamiento (Git-Ops) para garantizar la calidad y auditoría de tus flujos."
+					/>
+				</div>
+			</section>
+
+			<section class="recent-insights">
+				<h2>Casos de uso</h2>
+				<div class="post-list">
+					{recentPosts.map((post) => (
+						<UseCaseCard post={post} />
+					))}
+				</div>
+			</section>
 		</main>
 		<Footer />
 	</body>
