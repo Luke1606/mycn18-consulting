@@ -7,11 +7,23 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
+const REPO_NAME = 'mycn18-consulting'; 
+
 export default defineConfig({
-  site: 'https://MyCn18-Consulting.com',
+  base: `/${REPO_NAME}/`, 
+  
+  output: 'static', 
+
+  site: `https://luke1606.github.io/${REPO_NAME}/`,
+
   integrations: [mdx(), sitemap()],
 
   vite: {
     plugins: [tailwindcss()],
   },
+
+  server: {
+    port: 4321,
+    host: true
+  }
 });
