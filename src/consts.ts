@@ -49,6 +49,7 @@ const REPO_NAME = 'mycn18-consulting';
 const BASE_URL = `https://luke1606.github.io/${REPO_NAME}`;
 
 export enum NAV_LINKS {
+	INDEX = BASE_URL,
 	SERVICES = `${BASE_URL}/services`,
 	USE_CASES = `${BASE_URL}/cases`,
 	CONTACT = `${BASE_URL}/contact`,
