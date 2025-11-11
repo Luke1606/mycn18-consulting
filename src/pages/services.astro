@@ -9,96 +9,62 @@ import { NAV_LINKS, SITE_DESCRIPTION } from '../consts';
 const contactLink = NAV_LINKS.CONTACT;
 
 const serviceOptions = [
-    {
-        title: "Consultoría sobre MyCn18 (Feature/Uso)",
-        description: "Obtén asesoramiento experto sobre cómo implementar nuevas funcionalidades en MyCn18 o cómo optimizar su uso en tu negocio.",
-        emailSubject: "Consulta sobre MyCn18: Feature/Uso",
-        emailBody: "Hola Luis! Vi tu sitio de consultas y te contacto para una consulta sobre MyCn18 (Feature/Uso)."
-    },
-    {
-        title: "Consultoría de Desarrollo de Software",
-        description: "Asesoramiento sobre arquitectura de software, mejores prácticas, tecnologías y resolución de problemas en proyectos de desarrollo.",
-        emailSubject: "Consulta sobre Desarrollo de Software General",
-        emailBody: "Hola Luis! Vi tu sitio de consultas y te contacto para una consulta sobre Desarrollo de Software."
-    },
-    {
-        title: "Contratación para Desarrollo de Software",
-        description: "Servicios de desarrollo a medida para tus necesidades específicas, desde pequeñas aplicaciones hasta sistemas complejos.",
-        emailSubject: "Contratación para Desarrollo de Software Personalizado",
-        emailBody: "Hola Luis! Vi tu sitio de consultas y te contacto para la contratación de Desarrollo de Software Personalizado."
-    },
-    {
-        title: "Colaboración o contratación con Empresas",
-        description: "Explora oportunidades de colaboración para proyectos empresariales, ya sea para contratarme o para consultarme.",
-        emailSubject: "Colaboración con Empresas",
-        emailBody: "Hola Luis! Vi tu sitio de consultas y te contacto para una Colaboración con Empresas."
-    }
+	{
+		title: "Consultoría sobre MyCn18 (Feature/Uso)",
+		description: "Obtén asesoramiento sobre cómo implementar nuevas funcionalidades en MyCn18 o cómo optimizar su uso en tu negocio.",
+		emailSubject: "Consulta sobre MyCn18: Feature/Uso",
+		emailBody: "Hola Luis! Vi tu sitio de consultas y te contacto para una consulta sobre MyCn18 (Feature/Uso)."
+	},
+	{
+		title: "Consultoría de Desarrollo de Software",
+		description: "Asesoramiento sobre arquitectura de software, mejores prácticas, tecnologías y resolución de problemas en proyectos de desarrollo.",
+		emailSubject: "Consulta sobre Desarrollo de Software General",
+		emailBody: "Hola Luis! Vi tu sitio de consultas y te contacto para una consulta sobre Desarrollo de Software."
+	},
+	{
+		title: "Contratación para Desarrollo de Software",
+		description: "Servicios de desarrollo a medida para tus necesidades específicas, desde pequeñas aplicaciones hasta sistemas complejos.",
+		emailSubject: "Contratación para Desarrollo de Software",
+		emailBody: "Hola Luis! Vi tu sitio de consultas y te contacto para una solicitud de Contratación para Desarrollo de Software."
+	}
 ];
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title="Servicios de Consultoría MyCn18" description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				background-color: inherit;
-				padding: 4em 2em;
-				text-align: center;
-			}
-			h1 {
-				font-size: 3em;
-				margin-bottom: 1em;
-			}
-			.service-grid {
-				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-				gap: 2em;
-				max-width: 1200px;
-				margin: 0 auto 3em auto;
-			}
-			.service-card-link {
-				text-decoration: none;
-				color: inherit;
-			}
-			.general-greeting {
-				margin-top: 3em;
-				font-size: 1.2em;
-			}
-			.general-greeting a {
-				color: var(--oxygen-blue);
-				text-decoration: none;
-				font-weight: bold;
-				transition: color 0.3s ease;
-			}
-			.general-greeting a:hover {
-				color: var(--nitrogen-red);
-			}
-
-			@media (max-width: 768px) {
-				h1 {
-					font-size: 2.5em;
-				}
-			}
-		</style>
+		<BaseHead title="Servicios - MyCn18 Consultoría" description={SITE_DESCRIPTION} />
 	</head>
-	<body>
+	<body class="min-h-screen flex flex-col bg-guide-light dark:bg-cosmic-void">
 		<Header />
 		<Breadcrumbs path={Astro.url.pathname} />
-		<main>
-			<h1>Mis Servicios de Consultoría</h1>
-			<p>Ofrezco una gama de servicios especializados para ayudarte a alcanzar tus objetivos con MyCn18 y en el desarrollo de software en general.</p>
+		<main class="grow w-full max-w-3xl lg:max-w-4xl mx-auto p-4 md:p-8">
+			<h1 class="text-4xl sm:text-5xl font-extrabold text-center mb-4">
+				Mis Servicios de Consultoría
+			</h1>
+			<p class="text-center text-lg mb-8 max-w-2xl mx-auto">
+				Ofrezco una gama de servicios especializados para ayudarte a alcanzar tus objetivos con MyCn18 y en el desarrollo de software en general.
+			</p>
 
-			<div class="service-grid">
-				{serviceOptions.map((option) => (
-					<a href={`${contactLink}?subject=${encodeURIComponent(option.emailSubject)}&body=${encodeURIComponent(option.emailBody)}`} class="service-card-link">
-						<ServiceCard title={option.title} description={option.description} />
+			<div class="service-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
+				{serviceOptions.map((service) => (
+					<a 
+						href={`${contactLink}?subject=${service.emailSubject}&body=${service.emailBody}`} 
+						class="service-card-link no-underline text-inherit block"
+					>
+						<ServiceCard title={service.title} description={service.description} />
 					</a>
 				))}
 			</div>
 
-			<p class="general-greeting">
-				Si llegaste hasta aquí y te gustó la idea de MyCn18 o algo en general y te apetece mandarme un saludo o decirme algo, <a href={contactLink}>toca aquí</a>.
+			<p class="general-greeting mt-12 text-center text-xl">
+				¿Tienes una solicitud diferente o más específica? ¿O simplemente quieres decirme algo?
+				<a 
+					href={`${contactLink}?subject=Extra`} 
+					class="text-oxygen-blue font-bold hover:text-nitrogen-red transition-colors duration-300"
+				>
+					Contáctame directamente aquí
+				</a>.
 			</p>
 		</main>
 		<Footer />

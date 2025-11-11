@@ -2,8 +2,11 @@
 
 ---
 
-<button id="theme-toggle" aria-label="Toggle theme" title="Toggle theme">
-    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<button id="theme-toggle" aria-label="Toggle theme" title="Toggle theme"
+    class="rounded-full p-2 hover:bg-opacity-10 transition-colors duration-300"
+    data-dark-class="dark:text-guide-light dark:hover:bg-guide-light/10 text-cosmic-void hover:bg-cosmic-void/10"
+>
+    <svg class="sun-icon w-6 h-6 block dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="12" r="5"></circle>
         <line x1="12" y1="1" x2="12" y2="3"></line>
         <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -14,135 +17,39 @@
         <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
     </svg>
-    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+    <svg class="moon-icon w-6 h-6 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
     </svg>
 </button>
 
 <script is:inline>
     const themeToggle = document.getElementById('theme-toggle');
-    const body = document.body;
+    const root = document.documentElement;
 
-    const currentTheme = localStorage.getItem('theme');
-    if (currentTheme) {
-        body.classList.add(currentTheme);
-    } else {
-        // Default to dark theme if no preference is set
-        body.classList.add('dark-theme');
-    }
-
-    themeToggle.addEventListener('click', () => {
-        if (body.classList.contains('dark-theme')) {
-            body.classList.remove('dark-theme');
-            body.classList.add('light-theme');
-            localStorage.setItem('theme', 'light-theme');
-        } else {
-            body.classList.remove('light-theme');
-            body.classList.add('dark-theme');
-            localStorage.setItem('theme', 'dark-theme');
+    const storedTheme = localStorage.getItem('theme');
+    
+    const initializeTheme = () => {
+        if (storedTheme) {
+            if (storedTheme === 'dark') {
+                root.classList.add('dark');
+            } else {
+                root.classList.remove('dark');
+            }
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            root.classList.add('dark');
         }
-    });
+    };
+
+    const toggleTheme = () => {
+        root.classList.toggle('dark');
+        
+        const currentTheme = root.classList.contains('dark') ? 'dark' : 'light';
+        localStorage.setItem('theme', currentTheme);
+
+        window.dispatchEvent(new CustomEvent('theme-changed', { detail: currentTheme })); 
+    };
+
+    initializeTheme();
+    themeToggle?.addEventListener('click', toggleTheme);
 </script>
-
-<style>
-    #theme-toggle {
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 0.5em;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: inherit;
-        transition: color 0.3s ease;
-    }
-    #theme-toggle:hover {
-        color: var(--oxygen-blue);
-    }
-    #theme-toggle svg {
-        width: 24px;
-        height: 24px;
-    }
-
-    .sun-icon {
-        display: none; /* Hidden by default */
-    }
-    .moon-icon {
-        display: block; /* Visible by default (dark theme) */
-    }
-
-    body.light-theme .sun-icon {
-        display: block;
-    }
-    body.light-theme .moon-icon {
-        display: none;
-    }
-
-    /* Theme specific styles */
-    body.dark-theme {
-        background-color: var(--cosmic-void);
-        color: var(--guide-light);
-    }
-    body.light-theme {
-        background-color: #f0f2f5; /* Light background */
-        color: #333; /* Dark text */
-    }
-    body.light-theme .site-title a,
-    body.light-theme .internal-links a,
-    body.light-theme .social-links a,
-    body.light-theme .donation-links a {
-        color: #333;
-    }
-    body.light-theme header {
-        background-color: #fff;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-    body.light-theme .cta-button {
-        color: var(--cosmic-void);
-    }
-    body.light-theme .about-me,
-    body.light-theme .project-status,
-    body.light-theme .services,
-    body.light-theme .recent-insights,
-    body.light-theme footer {
-        background-color: #fff;
-    }
-    body.light-theme .about-me h2,
-    body.light-theme .recent-insights h2 {
-        color: var(--oxygen-blue);
-    }
-    body.light-theme .services h2,
-    body.light-theme .project-status h2 {
-        color: var(--golden-touch);
-    }
-    body.light-theme .service-card,
-    body.light-theme .post-card {
-        border-color: #eee;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    }
-    body.light-theme .service-card h3,
-    body.light-theme .post-card .title {
-        color: var(--golden-touch);
-    }
-    body.light-theme .service-card p,
-    body.light-theme .post-card .description {
-        color: #555;
-    }
-    body.light-theme .post-card .date {
-        color: #888;
-    }
-    body.light-theme code {
-        background-color: #f0f0f0;
-        color: var(--nitrogen-red);
-    }
-    body.light-theme pre {
-        background-color: #f0f0f0;
-    }
-    body.light-theme blockquote {
-        border-left-color: var(--oxygen-blue);
-        color: #555;
-    }
-    body.light-theme hr {
-        border-top-color: #eee;
-    }
-</style>

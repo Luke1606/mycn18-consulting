@@ -1,0 +1,41 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import FormattedDate from '../FormattedDate.astro';
+
+interface Props {
+	post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+---
+
+<a 
+	href={`/blog/${post.id}/`} 
+	class="
+		post-card 
+		flex flex-col 
+		bg-guide-light dark:bg-cosmic-void 
+		border border-oxygen-blue rounded-lg overflow-hidden no-underline text-inherit shadow-default dark:shadow-dark 
+		transition-all duration-300 
+		hover:translate-y-[-5px] hover:border-nitrogen-red
+		focus:outline-none focus:ring-2 focus:ring-nitrogen-red
+	"
+>
+	{post.data.heroImage && (
+		<Image
+			width={720}
+			height={360}
+			src={post.data.heroImage}
+			alt={post.data.title}
+			class="post-image w-full h-auto object-cover"
+		/>
+	)}
+	<div class="post-content p-4 flex flex-col justify-between grow">
+		<h3 class="title text-xl font-bold mb-1 transition-colors group-hover:text-nitrogen-red dark:group-hover:text-nitrogen-red">{post.data.title}</h3>
+		<p class="description text-base mb-2 grow">{post.data.description}</p>
+		<p class="date text-sm">
+			<FormattedDate date={post.data.pubDate} />
+		</p>
+	</div>
+</a>

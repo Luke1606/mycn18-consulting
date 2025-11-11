@@ -1,206 +1,76 @@
+/* global.css */
 /*
   The CSS in this style tag is based off of Bear Blog's default CSS.
   https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
   License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
  */
+@import "tailwindcss";
+
+@tailwind base; 
+@tailwind components; 
+@tailwind utilities;
 
 :root {
-	--cosmic-void: #080A1A;
-	--nitrogen-red: #F85A5A;
-	--oxygen-blue: #4A90E2;
-	--guide-light: #FFF9E0;
-	--golden-touch: #EEDD82;
+  --cosmic-void: #0d0d0d;
+  --guide-light: #fdfdfd;
+  
+  --nitrogen-red: #d10000;
+  --oxygen-blue: #0077b6;
+  --golden-touch: #ffc300;
+}
 
-	--accent: var(--nitrogen-red);
-	--black: 255, 249, 224;
-	--gray: 150, 150, 150;
-	--gray-light: 50, 50, 50;
-	--gray-dark: 255, 249, 224; /* Luz Guía para texto oscuro */
-	--gray-gradient: rgba(var(--cosmic-void), 50%), var(--cosmic-void);
-	--box-shadow:
-		0 2px 6px rgba(0, 0, 0, 0.25), 0 8px 24px rgba(0, 0, 0, 0.33), 0 16px 32px
-		rgba(0, 0, 0, 0.33);
+@font-face {
+  font-family: 'Atkinson Hyperlegible';
+  src: url('/fonts/atkinson-regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
-	/* Header and Footer theme variables - Default to dark */
-	--header-bg: var(--cosmic-void);
-	--header-text-color: var(--guide-light);
-	--header-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-	--footer-bg: var(--cosmic-void);
-	--footer-text-color: var(--gray);
-	--footer-border-color: rgba(var(--gray-light), 0.1);
-}
 @font-face {
-	font-family: "Atkinson";
-	src: url("/fonts/atkinson-regular.woff") format("woff");
-	font-weight: 400;
-	font-style: normal;
-	font-display: swap;
+  font-family: 'Atkinson Hyperlegible';
+  src: url('/fonts/atkinson-bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }
-@font-face {
-	font-family: "Atkinson";
-	src: url("/fonts/atkinson-bold.woff") format("woff");
-	font-weight: 700;
-	font-style: normal;
-	font-display: swap;
+
+:root {
+  font-family: 'Atkinson Hyperlegible', sans-serif;
+  
+  background-color: var(--guide-light);
+  color: var(--cosmic-void);
+  
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+html.dark {
+  background-color: var(--cosmic-void);
+  color: var(--guide-light);
+}
+
 body {
-	font-family: "Atkinson", sans-serif;
-	margin: 0;
-	padding: 0;
-	text-align: left;
-	word-wrap: break-word;
-	overflow-wrap: break-word;
-	font-size: 20px;
-	line-height: 1.7;
-}
-/* Default to dark theme */
-body.dark-theme {
-	background: var(--cosmic-void);
-	color: rgb(var(--gray-dark));
-	--header-bg: var(--cosmic-void);
-	--header-text-color: var(--guide-light);
-	--header-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-	--footer-bg: var(--cosmic-void);
-	--footer-text-color: var(--gray);
-	--footer-border-color: rgba(var(--gray-light), 0.1);
-}
-body.dark-theme h1,
-body.dark-theme h2,
-body.dark-theme h3,
-body.dark-theme h4,
-body.dark-theme h5,
-body.dark-theme h6 {
-	color: rgb(var(--golden-touch));
-}
-body.dark-theme a {
-	color: var(--oxygen-blue); /* Usar Oxígeno Azul para enlaces */
-}
-body.dark-theme a:hover {
-	color: var(--nitrogen-red); /* Usar Nitrógeno Rojo para hover de enlaces */
-}
-body.dark-theme code {
-	background-color: rgba(var(--gray-light), 0.2); /* Ajustar para tema oscuro */
-	color: var(--nitrogen-red); /* Color de código */
-}
-body.dark-theme pre {
-	background-color: rgba(var(--gray-light), 0.1); /* Ajustar para tema oscuro */
-}
-body.dark-theme blockquote {
-	border-left: 4px solid var(--oxygen-blue); /* Usar Oxígeno Azul para blockquote */
-	color: rgb(var(--gray)); /* Ajustar color de texto */
-}
-body.dark-theme hr {
-	border-top: 1px solid rgba(var(--gray-light), 0.3); /* Ajustar para tema oscuro */
+  @apply m-0;
 }
 
-/* Light theme styles */
-body.light-theme {
-	background-color: #f0f2f5; /* Light background */
-	color: #333; /* Dark text */
-	--header-bg: #fff;
-	--header-text-color: #333;
-	--header-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-	--footer-bg: #fff;
-	--footer-text-color: #555;
-	--footer-border-color: #eee;
-}
-body.light-theme h1,
-body.light-theme h2,
-body.light-theme h3,
-body.light-theme h4,
-body.light-theme h5,
-body.light-theme h6 {
-	color: #222; /* Darker titles */
-}
-body.light-theme a {
-	color: #007bff; /* Standard blue for links */
-}
-body.light-theme a:hover {
-	color: #0056b3; /* Darker blue on hover */
-}
-body.light-theme code {
-	background-color: #e0e0e0;
-	color: #c0392b; /* Red for code */
-}
-body.light-theme pre {
-	background-color: #e0e0e0;
-}
-body.light-theme blockquote {
-	border-left: 4px solid #007bff;
-	color: #555;
-}
-body.light-theme hr {
-	border-top: 1px solid #ccc;
+body::-webkit-scrollbar {
+  width: 0.5rem;
 }
 
-main {
-	width: 720px;
-	max-width: calc(100% - 2em);
-	margin: auto;
-	padding: 3em 1em;
+body::-webkit-scrollbar-thumb {
+  background-color: var(--nitrogen-red);
+  border-radius: 9999px;
+  border: 1px solid var(--guide-light);
 }
-h1 {
-	font-size: 3.052em;
+
+html.dark body::-webkit-scrollbar-thumb {
+  border-color: var(--cosmic-void);
 }
-h2 {
-	font-size: 2.441em;
+
+.shadow-default {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
 }
-h3 {
-	font-size: 1.953em;
-}
-h4 {
-	font-size: 1.563em;
-}
-h5 {
-	font-size: 1.25em;
-}
-strong,
-b {
-	font-weight: 700;
-}
-p {
-	margin-bottom: 1em;
-}
-.prose p {
-	margin-bottom: 2em;
-}
-textarea {
-	width: 100%;
-	font-size: 16px;
-}
-input {
-	font-size: 16px;
-}
-table {
-	width: 100%;
-}
-img {
-	max-width: 100%;
-	height: auto;
-	border-radius: 8px;
-}
-.sr-only {
-	border: 0;
-	padding: 0;
-	margin: 0;
-	position: absolute !important;
-	height: 1px;
-	width: 1px;
-	overflow: hidden;
-	/* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
-	clip: rect(1px 1px 1px 1px);
-	/* maybe deprecated but we need to support legacy browsers */
-	clip: rect(1px, 1px, 1px, 1px);
-	/* modern browsers, clip-path works inwards from each corner */
-	clip-path: inset(50%);
-	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
-	white-space: nowrap;
-}
-@media (max-width: 720px) {
-	body {
-		font-size: 18px;
-	}
-	main {
-		padding: 1em;
-	}
+
+.dark .shadow-dark {
+    box-shadow: 0 10px 15px -3px rgba(255, 255, 255, 0.05), 0 4px 6px -4px rgba(255, 255, 255, 0.05);
 }

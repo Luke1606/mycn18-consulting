@@ -10,98 +10,70 @@ import { SITE_DESCRIPTION } from '../consts';
 <html lang="en">
 	<head>
 		<BaseHead title="Contacto - MyCn18 Consultoría" description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				background-color: inherit;
-				padding: 4em 2em;
-				text-align: center;
-			}
-			h1 {
-				font-size: 3em;
-				margin-bottom: 1em;
-			}
-			.contact-form-container {
-				max-width: 700px;
-				margin: 0 auto;
-				padding: 2em;
-				border-radius: 8px;
-				box-shadow: var(--box-shadow);
-			}
-			.contact-form-container label {
-				display: block;
-				margin-bottom: 0.5em;
-				color: var(--oxygen-blue);
-				font-weight: bold;
-			}
-			.contact-form-container input[type="text"],
-			.contact-form-container input[type="email"],
-			.contact-form-container textarea {
-				width: 90%;
-				padding: 0.8em;
-				margin-bottom: 1.5em;
-				border: 1px solid var(--gray);
-				border-radius: 4px;
-				background-color: rgba(var(--gray-light), 0.4);
-				font-size: 1em;
-				transition: all 0.3s ease;
-			}
-			.contact-form-container input[type="text"]:focus,
-			.contact-form-container input[type="email"]:focus,
-			.contact-form-container textarea:focus {
-				border-color: var(--oxygen-blue);
-				background-color: rgba(var(--gray), 0.4);
-			}
-			.contact-form-container textarea {
-				min-height: 150px;
-				resize: vertical;
-			}
-			.contact-form-container button {
-				background-color: var(--golden-touch);
-				padding: 1em 2em;
-				border: none;
-				border-radius: 8px;
-				cursor: pointer;
-				font-size: 1.1em;
-				font-weight: bold;
-				transition: background-color 0.3s ease;
-			}
-			.contact-form-container button:hover {
-				background-color: var(--nitrogen-red);
-				color: var(--guide-light);
-			}
-
-			@media (max-width: 768px) {
-				h1 {
-					font-size: 2.5em;
-				}
-				.contact-form-container {
-					padding: 1.5em;
-				}
-			}
-		</style>
 	</head>
-	<body>
+	<body class="min-h-screen flex flex-col bg-guide-light dark:bg-cosmic-void">
 		<Header />
 		<Breadcrumbs path={Astro.url.pathname} />
-		<main>
-			<h1>Contáctame</h1>
-			<p>Estoy aquí para ayudarte a transformar tus ideas en soluciones robustas con MyCn18. Completa el formulario y me pondré en contacto contigo lo antes posible.</p>
+		<main class="flex-grow bg-inherit py-16 px-8 text-center max-w-4xl mx-auto w-full">
+			<h1 class="text-4xl sm:text-5xl font-extrabold mb-8">
+				Contáctame para Consultoría
+			</h1>
+			<p class="text-lg max-w-3xl mx-auto mb-8">
+				Estoy aquí para ayudarte a transformar tus ideas en soluciones robustas con MyCn18. 
+				Completa el formulario y me pondré en contacto contigo lo antes posible.
+			</p>
 
-			<div class="contact-form-container">
-				<form action="https://formspree.io/f/mpwkzpee" method="POST" id="contact-form">
-					<label for="name">Nombre:</label>
-					<input type="text" id="name" name="name" required>
+			<div class="contact-form-container max-w-xl mx-auto p-8 rounded-lg shadow-default dark:shadow-dark bg-guide-light dark:bg-cosmic-void border border-gray-200 dark:border-gray-700">
+				<form action="https://formspree.io/f/mpwkzpee" method="POST" id="contact-form" class="text-left">
+					
+					<label for="name" class="block mb-1 text-oxygen-blue dark:text-oxygen-blue font-bold">Nombre:</label>
+					<input 
+						type="text" 
+						id="name" 
+						name="name" 
+						required 
+						class="w-full p-3 mb-4 border border-gray-300 dark:border-gray-600 rounded-md bg-guide-light dark:bg-cosmic-void focus:outline-none focus:ring-2 focus:ring-nitrogen-red"
+					>
 
-					<label for="email">Email:</label>
-					<input type="email" id="email" name="email" required>
+					<label for="email" class="block mb-1 text-oxygen-blue dark:text-oxygen-blue font-bold">Email:</label>
+					<input 
+						type="email" 
+						id="email" 
+						name="_replyto" 
+						required 
+						class="w-full p-3 mb-4 border border-gray-300 dark:border-gray-600 rounded-md bg-guide-light dark:bg-cosmic-void focus:outline-none focus:ring-2 focus:ring-nitrogen-red"
+					>
 
-					<label for="subject">Asunto:</label>
-					<input type="text" id="subject" name="subject" required>
+					<label for="subject" class="block mb-1 text-oxygen-blue dark:text-oxygen-blue font-bold">Asunto:</label>
+					<input 
+						type="text" 
+						id="subject" 
+						name="_subject" 
+						required 
+						class="w-full p-3 mb-4 border border-gray-300 dark:border-gray-600 rounded-md bg-guide-light dark:bg-cosmic-void focus:outline-none focus:ring-2 focus:ring-nitrogen-red"
+					>
 
-					<label for="message">Mensaje:</label>
-					<textarea id="message" name="message" required></textarea>
+					<label for="message" class="block mb-1 text-oxygen-blue dark:text-oxygen-blue font-bold">Mensaje:</label>
+					<textarea 
+						id="message" 
+						name="message" 
+						required 
+						rows="6"
+						class="w-full p-3 mb-6 border border-gray-300 dark:border-gray-600 rounded-md bg-guide-light dark:bg-cosmic-void focus:outline-none focus:ring-2 focus:ring-nitrogen-red"
+					></textarea>
 
-					<button type="submit">Enviar Mensaje</button>
+					<button 
+						type="submit" 
+						class="
+							w-full 
+							bg-nitrogen-red text-guide-light font-bold 
+							py-3 px-6 rounded-full shadow-md 
+							transition-all duration-300 hover:bg-opacity-90 
+							focus:outline-none focus:ring-4 focus:ring-nitrogen-red/50
+						"
+					>
+						Enviar Mensaje
+					</button>
 				</form>
 			</div>
 		</main>
@@ -110,20 +82,21 @@ import { SITE_DESCRIPTION } from '../consts';
 </html>
 
 <script is:inline>
-    document.addEventListener('DOMContentLoaded', () => {
-        const form = document.getElementById('contact-form');
-        const subjectInput = document.getElementById('subject');
-        const messageTextarea = document.getElementById('message');
+	document.addEventListener('DOMContentLoaded', () => {
+		const form = document.getElementById('contact-form');
+		const subjectInput = document.getElementById('subject');
+		const messageTextarea = document.getElementById('message');
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const subjectParam = urlParams.get('subject');
-        const bodyParam = urlParams.get('body');
+		const urlParams = new URLSearchParams(window.location.search);
+		const subjectParam = urlParams.get('subject');
+		const bodyParam = urlParams.get('body');
 
-        if (subjectParam && subjectInput) {
-            subjectInput.value = subjectParam;
-        }
-        if (bodyParam && messageTextarea) {
-            messageTextarea.value = bodyParam;
-        }
-    });
+		if (subjectParam && subjectInput) {
+			subjectInput.value = decodeURIComponent(subjectParam);
+		}
+
+		if (bodyParam && messageTextarea) {
+			messageTextarea.value = decodeURIComponent(bodyParam);
+		}
+	});
 </script>

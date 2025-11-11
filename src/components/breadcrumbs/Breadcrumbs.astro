@@ -2,7 +2,7 @@
 import HeaderLink from '../layout/HeaderLink.astro';
 
 interface Props {
-    path: string;
+	path: string;
 }
 
 const { path } = Astro.props;
@@ -10,64 +10,29 @@ const segments = path.split('/').filter(segment => segment !== '');
 
 let currentPath = '';
 const breadcrumbs = segments.map((segment, index) => {
-    currentPath += `/${segment}`;
-    const isLast = index === segments.length - 1;
-    return {
-        href: currentPath,
-        label: segment.charAt(0).toUpperCase() + segment.slice(1),
-        isLast: isLast
-    };
+	currentPath += `/${segment}`;
+	const isLast = index === segments.length - 1;
+	return {
+		href: currentPath,
+		label: segment.charAt(0).toUpperCase() + segment.slice(1),
+		isLast: isLast
+	};
 });
 ---
-<nav class="breadcrumbs" aria-label="Breadcrumb">
-    <ol>
-        <li><HeaderLink href="/">Inicio</HeaderLink></li>
-        {breadcrumbs.map((crumb) => (
-            <li>
-                <span aria-hidden="true">/</span>
-                {crumb.isLast ? (
-                    <span aria-current="page">{crumb.label}</span>
-                ) : (
-                    <HeaderLink href={crumb.href}>{crumb.label}</HeaderLink>
-                )}
-            </li>
-        ))}
-    </ol>
+<nav class="py-4 bg-guide-light dark:bg-cosmic-void text-sm" aria-label="Breadcrumb">
+	<ol class="flex list-none m-0 p-0 flex-wrap justify-center max-w-7xl mx-auto px-4">
+		<li class="flex items-center">
+			<HeaderLink href="/" class="text-sm">Inicio</HeaderLink>
+		</li>
+		{breadcrumbs.map((crumb) => (
+			<li class="flex items-center">
+				<span aria-hidden="true" class="mx-2">/</span>
+				{crumb.isLast ? (
+					<span aria-current="page" class="text-nitrogen-red font-semibold">{crumb.label}</span>
+				) : (
+					<HeaderLink href={crumb.href} class="text-sm">{crumb.label}</HeaderLink>
+				)}
+			</li>
+		))}
+	</ol>
 </nav>
-
-<style>
-    .breadcrumbs {
-        padding: 1em 0;
-        background-color: inherit;
-        color: inherit;
-        font-size: 0.9em;
-    }
-    .breadcrumbs ol {
-        display: flex;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    .breadcrumbs li {
-        display: flex;
-        align-items: center;
-    }
-    .breadcrumbs li span[aria-hidden="true"] {
-        margin: 0 0.5em;
-        color: var(--gray);
-    }
-    .breadcrumbs li a,
-    .breadcrumbs li span[aria-current="page"] {
-        text-decoration: none;
-        color: var(--oxygen-blue);
-        transition: color 0.3s ease;
-    }
-    .breadcrumbs li a:hover {
-        color: var(--nitrogen-red);
-    }
-    .breadcrumbs li span[aria-current="page"] {
-        font-weight: bold;
-    }
-</style>

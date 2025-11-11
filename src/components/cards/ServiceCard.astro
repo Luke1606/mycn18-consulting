@@ -7,33 +7,13 @@ interface Props {
 const { title, description } = Astro.props;
 ---
 
-<div class="service-card">
-	<h3>{title}</h3>
-	<p>{description}</p>
+<div class="
+	service-card 
+	p-4 rounded-lg text-left shadow-default transition-all duration-300 
+	bg-guide-light border border-oxygen-blue 
+	dark:bg-cosmic-void dark:shadow-dark dark:border-oxygen-blue
+	hover:translate-y-[-5px] hover:border-nitrogen-red
+">
+	<h3 class="text-xl mt-0 mb-2 font-semibold text-oxygen-blue dark:text-golden-touch">{title}</h3>
+	<p class="text-base leading-relaxed text-justify">{description}</p>
 </div>
-
-<style>
-	.service-card {
-		background-color: inherit;
-		border: 1px solid var(--oxygen-blue);
-		border-radius: 8px;
-		padding: 1em;
-		text-align: left;
-		box-shadow: var(--box-shadow);
-		transition: transform 0.3s ease, border-color 0.3s ease;
-	}
-	.service-card:hover {
-		transform: translateY(-5px);
-		border-color: var(--nitrogen-red);
-	}
-	.service-card h3 {
-		font-size: 1.5em;
-		margin-top: 0;
-		margin-bottom: 0.5em;
-	}
-	.service-card p {
-		font-size: 1em;
-		line-height: 1.6;
-		text-align: justify;
-	}
-</style>
