@@ -1,0 +1,201 @@
+---
+import { Image } from 'astro:assets';
+import { NAV_LINKS, SOCIAL_LINKS } from '../../consts';
+import HeaderLink from './HeaderLink.astro';
+import ThemeToggle from '../ThemeToggle.astro';
+import logoPrincipal from '../../assets/logo-principal.jpg';
+
+const navLinks = [
+	{ href: '/', label: 'Inicio' },
+	{ href: NAV_LINKS.SERVICES, label: 'Servicios' },
+	{ href: NAV_LINKS.USE_CASES, label: 'Casos de uso' },
+	{ href: NAV_LINKS.CONTACT, label: 'Contacto' },
+];
+---
+
+<header>
+	<nav>
+		<div class="site-title">
+			<a href="/">
+				<Image src={logoPrincipal} width={40} height={40} alt="MyCn18 Logo" loading="eager" />
+			</a>
+			<span class="tagline">Servicios de Arquitectura y Consultoría</span>
+		</div>
+		<button id="hamburger-menu" aria-label="Toggle navigation menu">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<line x1="3" y1="12" x2="21" y2="12"></line>
+				<line x1="3" y1="6" x2="21" y2="6"></line>
+				<line x1="3" y1="18" x2="21" y2="18"></line>
+			</svg>
+		</button>
+		<div class="nav-menu">
+			<div class="internal-links">
+				{navLinks.map((link) => (
+					<HeaderLink href={link.href}>{link.label}</HeaderLink>
+				))}
+			</div>
+			<div class="header-actions">
+				<ThemeToggle />
+				<div class="social-links">
+					{SOCIAL_LINKS.map((link) => (
+						<a href={link.href} target="_blank" aria-label={`Follow on ${link.name}`} style={`--hover-color: ${link.hoverColor};`}>
+							<span class="sr-only">Follow on {link.name}</span>
+							<svg 
+								role="img" 
+								viewBox="0 0 24 24" 
+								xmlns="http://www.w3.org/2000/svg"
+								aria-hidden="true"
+								width="32" 
+								height="32"
+								>
+									<title>{link.name}</title>
+								<path fill="currentColor" d={link.icon}/>
+							</svg>
+						</a>
+					))}
+				</div>
+			</div>
+		</div>
+	</nav>
+</header>
+
+<script is:inline>
+	const hamburgerButton = document.getElementById('hamburger-menu');
+	const navMenu = document.querySelector('.nav-menu');
+
+	hamburgerButton.addEventListener('click', () => {
+		navMenu.classList.toggle('is-active');
+	});
+</script>
+
+<style>
+	header {
+		margin: 0;
+		width: 100vw;
+		padding: 0 .2em;
+		background: var(--header-bg);
+		box-shadow: var(--header-shadow);
+		color: var(--header-text-color);
+	}
+	.site-title {
+		display: flex;
+		align-items: center;
+		gap: 0.5em;
+	}
+	.site-title a {
+		display: flex;
+		align-items: center;
+		text-decoration: none;
+		color: inherit;
+	}
+	.site-title img {
+		border-radius: 50%;
+		transition: all 0.3s ease;
+	}
+	.site-title a:hover img {
+		filter: brightness(1.2);
+		scale: 1.1;
+	}
+	.tagline {
+		font-size: 1.1em;
+		opacity: 0.9;
+		margin-left: 0.5em;
+		font-weight: bold;
+	}
+	nav {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 1em 0;
+	}
+	nav a {
+		padding: 0.5em 0.75em;
+		color: inherit;
+		border-bottom: 2px solid transparent;
+		text-decoration: none;
+		transition: border-bottom-color 0.3s ease;
+	}
+	nav a.active {
+		border-bottom-color: var(--oxygen-blue);
+	}
+	nav a:hover {
+		border-bottom-color: var(--nitrogen-red);
+	}
+	.internal-links {
+		display: flex;
+		gap: 1em;
+	}
+	.header-actions {
+		display: flex;
+		align-items: center;
+		gap: 1em;
+	}
+	.social-links {
+		display: flex;
+		gap: 0.5em;
+	}
+	.social-links a {
+		color: inherit;
+		padding: 0.5em;
+		border-bottom: none;
+	}
+	.social-links a:hover {
+		color: var(--hover-color, var(--oxygen-blue));
+	}
+
+	#hamburger-menu {
+		display: none;
+		background: none;
+		border: none;
+		cursor: pointer;
+		color: inherit;
+		padding: 0.5em;
+	}
+	#hamburger-menu svg {
+		width: 28px;
+		height: 28px;
+	}
+
+	@media (max-width: 720px) {
+		#hamburger-menu {
+			display: block;
+		}
+		.nav-menu {
+			display: none;
+			width: 100%;
+			position: absolute;
+			top: 100%;
+			width: 100%; 
+        	position: absolute;
+        	top: 100%;
+			left: 0;
+			background-color: var(--header-bg);
+			box-shadow: var(--header-shadow);
+			padding: 1em;
+			z-index: 1000;
+		}
+		.nav-menu.is-active {
+			display: flex;
+			flex-direction: row;
+		}
+		.internal-links, .header-actions {
+			flex-direction: column;
+			align-items: flex-start;
+			width: 100%;
+			gap: 0.5em;
+		}
+		.social-links {
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+			justify-content: flex-start;
+		}
+		.site-title .tagline {
+			display: none;
+		}
+		nav {
+			flex-wrap: wrap;
+		}
+	}
+</style>

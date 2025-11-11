@@ -1,20 +1,15 @@
 ---
-import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
-import ServiceCard from '../components/ServiceCard.astro';
-import UseCaseCard from '../components/UseCaseCard.astro';
-import { NAV_LINKS, SITE_DESCRIPTION, SITE_TITLE } from '../consts';
-
+import BaseHead from '../components/layout/BaseHead.astro';
+import Footer from '../components/layout/Footer.astro';
+import Header from '../components/layout/Header.astro';
+import ServiceCard from '../components/cards/ServiceCard.astro';
+import { NAV_LINKS, SITE_DESCRIPTION, SITE_TITLE, DONATION_LINKS, PAYPAL_DONATION_NOTE } from '../consts';
+import Breadcrumbs from '../components/breadcrumbs/Breadcrumbs.astro';
 import profilePic from '../assets/profile-pic.jpg';
 
-const recentPosts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-).slice(0, 4);
-
 const contactLink = NAV_LINKS.CONTACT;
+const githubRepoLink = 'https://github.com/MyCn18-automation/mycn18-core-orquestrator';
 ---
 
 <!doctype html>
@@ -22,16 +17,14 @@ const contactLink = NAV_LINKS.CONTACT;
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<style>
-			.hero {
-				background-color: var(--cosmic-void);
-				color: var(--guide-light);
-				text-align: center;
+			.hero, .project-status, .about-me, .services {
+				background-color: inherit;
 				padding: 4em 2em;
+				text-align: center;
 			}
 			.hero h1 {
 				font-size: 3.5em;
 				margin-bottom: 0.5em;
-				color: var(--guide-light);
 			}
 			.hero p {
 				font-size: 1.5em;
@@ -47,17 +40,15 @@ const contactLink = NAV_LINKS.CONTACT;
 				text-decoration: none;
 				font-weight: bold;
 				font-size: 1.2em;
-				transition: background-color 0.3s ease;
+				transition: background-color, scale 0.3s ease;
 			}
 			.cta-button:hover {
 				background-color: var(--nitrogen-red);
 				color: var(--guide-light);
+				scale: 1.05;
 			}
 
 			.about-me {
-				background-color: var(--cosmic-void);
-				color: var(--guide-light);
-				padding: 4em 2em;
 				display: flex;
 				flex-direction: column;
 				align-items: center;
@@ -65,15 +56,15 @@ const contactLink = NAV_LINKS.CONTACT;
 			}
 			.about-me .content {
 				display: flex;
-				flex-direction: row;
+				flex-direction: column;
 				align-items: center;
 				gap: 2em;
 				max-width: 1000px;
 			}
 			.about-me img {
-				width: 200px;
-				height: 200px;
-				border-radius: 50%;
+				width: 20em;
+				height: 20em;
+				border-radius: 30%;
 				object-fit: cover;
 				box-shadow: var(--box-shadow);
 			}
@@ -85,16 +76,44 @@ const contactLink = NAV_LINKS.CONTACT;
 			.about-me p {
 				font-size: 1.1em;
 				line-height: 1.8;
+				margin-bottom: 1em;
+			}
+			.project-status h2 {
+				font-size: 2.5em;
+				margin-bottom: 1.5em;
+			}
+			.project-status p {
+				max-width: 800px;
+				margin: 0 auto 1em auto;
+				font-size: 1.1em;
+				line-height: 1.8;
+			}
+			.project-status .links {
+				display: flex;
+				justify-content: center;
+				gap: 1em;
+				margin-top: 1.5em;
+			}
+			.project-status .links a {
+				color: var(--oxygen-blue);
+				text-decoration: none;
+				font-weight: bold;
+				transition: color 0.3s ease;
+			}
+			.project-status .links a:hover {
+				color: var(--nitrogen-red);
+			}
+			.project-status .donation-note {
+				font-size: 0.9em;
+				color: var(--gray);
+				max-width: 600px;
+				margin: 1em auto 0 auto;
 			}
 
 			.services {
-				background-color: var(--cosmic-void);
-				color: var(--guide-light);
-				padding: 4em 2em;
-				text-align: center;
+				padding: .5em;
 			}
 			.services h2 {
-				color: var(--golden-touch);
 				font-size: 2.5em;
 				margin-bottom: 1.5em;
 			}
@@ -106,26 +125,10 @@ const contactLink = NAV_LINKS.CONTACT;
 				margin: 0 auto;
 			}
 
-			.recent-insights {
-				background-color: var(--cosmic-void);
-				color: var(--guide-light);
-				padding: 4em 2em;
-				text-align: center;
-			}
-			.recent-insights h2 {
-				color: var(--oxygen-blue);
-				font-size: 2.5em;
-				margin-bottom: 1.5em;
-			}
-			.post-list {
-				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-				gap: 2em;
-				max-width: 1200px;
-				margin: 0 auto;
-			}
-
 			@media (max-width: 768px) {
+				.hero, .about-me, .project-status {
+					padding: 2em 1em;
+				}
 				.hero h1 {
 					font-size: 2.5em;
 				}
@@ -136,70 +139,92 @@ const contactLink = NAV_LINKS.CONTACT;
 					flex-direction: column;
 				}
 				.about-me img {
-					width: 150px;
-					height: 150px;
+					width: 10em;
+					height: 10em;
 				}
-				.about-me h2, .services h2, .recent-insights h2 {
+				.about-me h2, .services h2, .recent-insights h2, .project-status h2 {
 					font-size: 2em;
+				}
+				.project-status .links {
+					flex-direction: column;
+				}
+				.project-status h2 {
+					margin-bottom: .5em;
 				}
 			}
 		</style>
 	</head>
 	<body>
 		<Header />
+		<Breadcrumbs path={Astro.url.pathname} />
 		<main>
-			<!-- TODO implementar y agregar breadcrumbs -->
-			<!-- TODO agregar robots.txt -->
-			<!-- Hacer todo el repositorio internacional, q se pueda cambiar de tema claro a tema oscuro con un boton flotante en cada pagina y q todo el contenido este disponible al menos en español e ingles -->
-			<!-- TODO actualizar readme para q refleje el contenido real del repositorio, pero deja la referencia al creador original del template al inicio 'Esto fue construido a partir del template de...' o algo asi -->
 			<section class="hero">
 				<h1>Consultoría MyCn18: Donde la Visión Adquiere Forma.</h1>
 				<p>Implementa MyCn18 a la medida de tu negocio con la guía experta de su arquitecto principal. Flujos sólidos, estables y escalables garantizados.</p>
-				<!-- TODO quiero q al mandarme al contact llegue con el template de consultoría -->
-				<a href={contactLink} class="cta-button">Agendar una Consulta sobre MyCn18</a>
+				<a href={`${contactLink}?subject=Agendar consulta sobre MyCn18`} class="cta-button">Agendar una Consulta sobre MyCn18</a>
 			</section>
-			<!-- TODO mencionar en alguna parte q el proyecto apenas esta comenzando y como soy yo solo va a un paso lento, pero q el backend sera open source y esta abierto a contribuidores, solicitudes de features y etc, poner enlace al repositorio https://github.com/MyCn18-automation/mycn18-core-orquestrator y que si quieren pueden donar, los enlaces de donacion estan en DONATION_LINKS en consts -->
+
 			<section class="about-me">
 				<div class="content">
 					<Image src={profilePic} alt="Luis Alberto Hernández Roselló" />
-					<!-- TODO cambiar el estilo de la foto para q el tamaño sea más acorde al texto, tal vez se vería mejor la imagen arriba del texto en lugar de al lado -->
 					<div>
 						<h2>Sobre Mí</h2>
-						<p>Soy Luis Alberto Hernández Roselló, el arquitecto y creador detrás de MyCn18. Tengo gran pasión por no sólo por el desarrollo de software, sino por lo simple q es cambiar el mundo solamente pensando y tecleando en una pc, en especial al transformar procesos complejos en soluciones útiles para la mayor cantidad de personas posible. Aunque el camino es desafiante y la competencia inmensa, mi motivación es genuinamente ayudar a las personas a construir sistemas que realmente funcionen, desde flujos de automatización hasta lógica reutilizable para desarrollo de sistemas, aportando una perspectiva fresca y desafiando los paradigmas existentes. Como mente pensante detrás del proyecto, conozco MyCn18 a fondo y estoy aquí para guiarte en cada nivel de abstracción y cada paso de su uso.</p>
-						<!-- TODO acomodar el texto para q no se vea un bloque enorme, q sea más atractivo de leer -->
+						<p>Soy Luis Alberto Hernández Roselló, el arquitecto y creador detrás de MyCn18. Tengo gran pasión por no sólo por el desarrollo de software, sino por lo simple que es cambiar el mundo solamente pensando y tecleando en una pc, en especial al transformar procesos complejos en soluciones útiles para la mayor cantidad de personas posible.</p>
+						<p>Aunque el camino es desafiante y la competencia inmensa, mi motivación es genuinamente ayudar a las personas a construir sistemas que realmente funcionen, desde flujos de automatización hasta lógica reutilizable para desarrollo de sistemas, aportando una perspectiva fresca y desafiando los paradigmas existentes.</p>
+						<p>Como mente pensante detrás del proyecto, conozco MyCn18 a fondo y estoy aquí para guiarte en cada nivel de abstracción y cada paso de su uso.</p>
 					</div>
 				</div>
 			</section>
 
+			<section class="project-status">
+				<h2>El Proyecto MyCn18</h2>
+				<p>MyCn18 es un proyecto que apenas está comenzando y avanza a un ritmo constante, impulsado por la dedicación de un solo arquitecto. El backend de MyCn18 será de código abierto, y estamos abiertos a contribuciones, solicitudes de nuevas funcionalidades y cualquier forma de colaboración.</p>
+				<div class="links">
+					<a href={githubRepoLink} target="_blank">Repositorio de GitHub</a>
+					{DONATION_LINKS.map((link) => (
+						<a href={link.href} target="_blank" aria-label={`Donar vía ${link.name}`} style={`--hover-color: ${link.hoverColor};`}>
+							{link.name}
+						</a>
+					))}
+				</div>
+				<p class="donation-note">{PAYPAL_DONATION_NOTE}</p>
+			</section>
+
 			<section class="services">
 				<h2>Principal visión de MyCn18 como ecosistema</h2>
-				<!-- TODO aqui incluir un card por cada nivel de abstraccion de los 4, osea cada forma de usar mycn18, ademas de lo de testeabilidad y control de versiones, lo de q no se cobrara por cantidad de tareas por flujo, sino por la complejidad de estos, tambien q se dara la opcion de usar librerias y sdk personalizados del usuario (para experimentados) mediante nodos custom, tambien la opcion de descargar el codigo fuente para q no dependan de mi ecosistema, q pienso implementar sdks para uso comun de usuarios dev experimentados asi ellos no tendran necesidad de complicar su codigo demasiado, y si quieren complicarlo podran usar nodos custom tambien para eso -->
 				<div class="service-cards">
 					<ServiceCard
-						title="Diseño de Flujos Algorítmicos (Nivel 2)"
-						description="Modelado de lógica de negocio compleja (bucles, condicionales) en el canvas visual de MyCn18."
-					/>
-					<ServiceCard
-						title="Extensibilidad y Nodos (Nivel 3)"
-						description="Desarrollo y whitelisting de Librerías Reutilizables y Nodos customizados (NPM packages) para integraciones empresariales."
-					/>
-					<ServiceCard
 						title="Estrategia AI-First (Nivel 4)"
-						description="Consultoría para integrar la IA generativa en la creación de flujos y automatización (Prompt-to-Flow)."
+						description="Chatbot integrado para la creación de flujos y de implementación y automatización (Prompt-to-Flow). Lleva tus flujos al siguiente nivel con inteligencia artificial."
+					/>
+					<ServiceCard
+					title="Flujos mediante Nodos (Nivel 3)"
+					description="Creación de flujos mediante componentes completos. Añade, conecta y mira lo q logras!. Intégrate perfectamente a tu infraestructura."
+					/>
+					<ServiceCard
+						title="Personalización con UI (Nivel 2)"
+						description="Diseño de Flujos Algorítmicos mediante una interfaz intuitiva, ideal para programadores junior que quieran personalizar el funcionamiento de los nodos. Modelado de lógica de negocio tan compleja como quieras (bucles, condicionales) en el canvas visual de MyCn18."
+					/>
+					<ServiceCard
+						title="Estrategia Code-First (Nivel 1)"
+						description="Este es el nivel más HARDCORE. Más personalización imposible. Puedes modificar directamente el codigo fuente de cada componente y cambiarlo a tu gusto! (no lo compliques mucho q si tu flujo no compila ya no será mi problema jeje)."
 					/>
 					<ServiceCard
 						title="MyCn18 Git-Ops (Testing y Versiones)"
-						description="Implementación de frameworks de testing visual y configuración de versionamiento (Git-Ops) para garantizar la calidad y auditoría de tus flujos."
+						description="Implementación de frameworks de testing visual y configuración de versionamiento (Git-Ops) para garantizar la calidad, auditoría y robustez de tus flujos."
 					/>
-				</div>
-			</section>
-
-			<section class="recent-insights">
-				<h2>Casos de uso</h2>
-				<div class="post-list">
-					{recentPosts.map((post) => (
-						<UseCaseCard post={post} />
-					))}
+					<ServiceCard
+						title="Componentes completamente personalizados"
+						description="Puedes importar tus propias librerías y SDKs personalizados al flujo (para experimentados) mediante nodos sin etiqueta que funcionará completamente con TU código, ahi puedes usar toda la complejidad que quieras."
+					/>
+					<ServiceCard
+						title="Librerías y SDKs pre-hechos"
+						description="Quieres personalizar sin romperte la cabeza? Usa lo q ya existe, t proveo librerías y SDKs pre-hechos para tareas tediosas comunes, personaliza lo q quieras sin tener q reinventar la rueda."
+					/>
+					<ServiceCard
+						title="Independencia del ecosistema MyCn18"
+						description="En todo momento tendrás la opción de exportar tus flujos y lógica de negocio a código fuente estándar (Node.js, Python, etc) para que puedas ejecutarlo en tu propia infraestructura sin depender del ecosistema MyCn18."
+					/>
 				</div>
 			</section>
 		</main>

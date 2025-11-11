@@ -14,10 +14,10 @@ const { title, description } = Astro.props;
 
 <style>
 	.service-card {
-		background-color: var(--cosmic-void);
+		background-color: inherit;
 		border: 1px solid var(--oxygen-blue);
 		border-radius: 8px;
-		padding: 1.5em;
+		padding: 1em;
 		text-align: left;
 		box-shadow: var(--box-shadow);
 		transition: transform 0.3s ease, border-color 0.3s ease;
@@ -27,14 +27,13 @@ const { title, description } = Astro.props;
 		border-color: var(--nitrogen-red);
 	}
 	.service-card h3 {
-		color: var(--golden-touch);
 		font-size: 1.5em;
 		margin-top: 0;
 		margin-bottom: 0.5em;
 	}
 	.service-card p {
-		color: var(--guide-light);
 		font-size: 1em;
 		line-height: 1.6;
+		text-align: justify;
 	}
 </style>

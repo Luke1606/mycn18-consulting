@@ -1,11 +1,12 @@
 ---
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
+import BaseHead from '../components/layout/BaseHead.astro';
+import Footer from '../components/layout/Footer.astro';
+import Header from '../components/layout/Header.astro';
 import FormattedDate from '../components/FormattedDate.astro';
-import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import Breadcrumbs from '../components/breadcrumbs/Breadcrumbs.astro';
+import { SITE_DESCRIPTION } from '../consts';
 
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -15,10 +16,13 @@ const posts = (await getCollection('blog')).sort(
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title="Artículos y Estudios de Caso de MyCn18" description={SITE_DESCRIPTION} />
+		<BaseHead title="Casos de uso de MyCn18" description={SITE_DESCRIPTION} />
 		<style>
 			main {
 				width: 960px;
+			}
+			h1 {
+				text-align: center;
 			}
 			ul {
 				display: flex;
@@ -55,7 +59,6 @@ const posts = (await getCollection('blog')).sort(
 			}
 			.title {
 				margin: 0;
-				color: var(--guide-light);
 				line-height: 1;
 			}
 			.date {
@@ -88,9 +91,10 @@ const posts = (await getCollection('blog')).sort(
 	</head>
 	<body>
 		<Header />
+		<Breadcrumbs path={Astro.url.pathname} />
 		<main>
 			<section>
-				<h1>Casos en los que sería recomendable usar MyCn18 y cómo usarlo según tu estilo</h1>
+				<h1>Casos en los que sería recomendable usar MyCn18</h1>
 				<ul>
 					{
 						posts.map((post) => (

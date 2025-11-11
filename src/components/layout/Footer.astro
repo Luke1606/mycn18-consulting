@@ -1,0 +1,99 @@
+---
+import { SOCIAL_LINKS, DONATION_LINKS, PAYPAL_DONATION_NOTE } from "../../consts";
+
+const today = new Date();
+---
+
+<footer>
+	<div class="footer-links">
+		<a href="https://mycn18-frontend.placeholder" target="_blank">Sitio oficial MyCn18</a>
+		<a href="https://mycn18-docs.placeholder" target="_blank">Documentación MyCn18</a>
+	</div>
+	<div class="social-links">
+		{SOCIAL_LINKS.map((link) => (
+			<a href={link.href} target="_blank" aria-label={`Follow on ${link.name}`} style={`--hover-color: ${link.hoverColor};`}>
+				<span class="sr-only">Follow on {link.name}</span>
+				<svg 
+					role="img" 
+					viewBox="0 0 24 24" 
+					xmlns="http://www.w3.org/2000/svg"
+					aria-hidden="true"
+					width="32" 
+					height="32"
+					>
+						<title>{link.name}</title>
+					<path fill="currentColor" d={link.icon}/>
+				</svg>
+			</a>
+		))}
+	</div>
+	<div class="donation-links">
+		{DONATION_LINKS.map((link) => (
+			<a href={link.href} target="_blank" aria-label={`Donate via ${link.name}`} style={`--hover-color: ${link.hoverColor};`}>
+				<span class="sr-only">Donate via {link.name}</span>
+				<svg 
+					role="img" 
+					viewBox="0 0 24 24" 
+					xmlns="http://www.w3.org/2000/svg"
+					aria-hidden="true"
+					width="32" 
+					height="32"
+					>
+						<title>{link.name}</title>
+					<path fill="currentColor" d={link.icon}/>
+				</svg>
+			</a>
+		))}
+	</div>
+	<p class="donation-note">{PAYPAL_DONATION_NOTE}</p>
+	<p>&copy; {today.getFullYear()} Luis Alberto Hernández Roselló. Todos los derechos reservados.</p>
+</footer>
+<style>
+	footer {
+		padding: 2em 1em;
+		width: 100%;
+		background: var(--footer-bg);
+		color: var(--footer-text-color);
+		text-align: center;
+		border-top: 1px solid var(--footer-border-color);
+	}
+	.footer-links {
+		display: flex;
+		justify-content: center;
+		gap: 2em;
+		margin-bottom: 1em;
+	}
+	.footer-links a {
+		color: var(--oxygen-blue);
+		text-decoration: none;
+		transition: color 0.3s ease;
+	}
+	.footer-links a:hover {
+		color: var(--nitrogen-red);
+	}
+	.social-links, .donation-links {
+		display: flex;
+		justify-content: center;
+		gap: 1em;
+		margin-top: 1em;
+		margin-bottom: 1em;
+	}
+	.social-links a, .donation-links a {
+		text-decoration: none;
+		color: inherit;
+		transition: color 0.3s ease;
+	}
+	.social-links a:hover, .donation-links a:hover {
+		color: var(--hover-color, var(--oxygen-blue));
+	}
+	.donation-note {
+		font-size: 0.8em;
+		color: inherit;
+		max-width: 600px;
+		margin: 1em auto 0 auto;
+	}
+	footer p {
+		font-size: 0.9em;
+		color: inherit;
+	}
+</style>

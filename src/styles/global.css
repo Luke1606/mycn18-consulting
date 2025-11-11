@@ -12,7 +12,7 @@
 	--golden-touch: #EEDD82;
 
 	--accent: var(--nitrogen-red);
-	--black: 255, 249, 224; /* Luz Guía para texto oscuro */
+	--black: 255, 249, 224;
 	--gray: 150, 150, 150;
 	--gray-light: 50, 50, 50;
 	--gray-dark: 255, 249, 224; /* Luz Guía para texto oscuro */
@@ -20,6 +20,14 @@
 	--box-shadow:
 		0 2px 6px rgba(0, 0, 0, 0.25), 0 8px 24px rgba(0, 0, 0, 0.33), 0 16px 32px
 		rgba(0, 0, 0, 0.33);
+
+	/* Header and Footer theme variables - Default to dark */
+	--header-bg: var(--cosmic-void);
+	--header-text-color: var(--guide-light);
+	--header-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+	--footer-bg: var(--cosmic-void);
+	--footer-text-color: var(--gray);
+	--footer-border-color: rgba(var(--gray-light), 0.1);
 }
 @font-face {
 	font-family: "Atkinson";
@@ -40,29 +48,96 @@ body {
 	margin: 0;
 	padding: 0;
 	text-align: left;
-	background: var(--cosmic-void);
-	background-size: 100% 600px;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
-	color: rgb(var(--gray-dark)); /* Usar Luz Guía para el texto principal */
 	font-size: 20px;
 	line-height: 1.7;
 }
+/* Default to dark theme */
+body.dark-theme {
+	background: var(--cosmic-void);
+	color: rgb(var(--gray-dark));
+	--header-bg: var(--cosmic-void);
+	--header-text-color: var(--guide-light);
+	--header-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+	--footer-bg: var(--cosmic-void);
+	--footer-text-color: var(--gray);
+	--footer-border-color: rgba(var(--gray-light), 0.1);
+}
+body.dark-theme h1,
+body.dark-theme h2,
+body.dark-theme h3,
+body.dark-theme h4,
+body.dark-theme h5,
+body.dark-theme h6 {
+	color: rgb(var(--golden-touch));
+}
+body.dark-theme a {
+	color: var(--oxygen-blue); /* Usar Oxígeno Azul para enlaces */
+}
+body.dark-theme a:hover {
+	color: var(--nitrogen-red); /* Usar Nitrógeno Rojo para hover de enlaces */
+}
+body.dark-theme code {
+	background-color: rgba(var(--gray-light), 0.2); /* Ajustar para tema oscuro */
+	color: var(--nitrogen-red); /* Color de código */
+}
+body.dark-theme pre {
+	background-color: rgba(var(--gray-light), 0.1); /* Ajustar para tema oscuro */
+}
+body.dark-theme blockquote {
+	border-left: 4px solid var(--oxygen-blue); /* Usar Oxígeno Azul para blockquote */
+	color: rgb(var(--gray)); /* Ajustar color de texto */
+}
+body.dark-theme hr {
+	border-top: 1px solid rgba(var(--gray-light), 0.3); /* Ajustar para tema oscuro */
+}
+
+/* Light theme styles */
+body.light-theme {
+	background-color: #f0f2f5; /* Light background */
+	color: #333; /* Dark text */
+	--header-bg: #fff;
+	--header-text-color: #333;
+	--header-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	--footer-bg: #fff;
+	--footer-text-color: #555;
+	--footer-border-color: #eee;
+}
+body.light-theme h1,
+body.light-theme h2,
+body.light-theme h3,
+body.light-theme h4,
+body.light-theme h5,
+body.light-theme h6 {
+	color: #222; /* Darker titles */
+}
+body.light-theme a {
+	color: #007bff; /* Standard blue for links */
+}
+body.light-theme a:hover {
+	color: #0056b3; /* Darker blue on hover */
+}
+body.light-theme code {
+	background-color: #e0e0e0;
+	color: #c0392b; /* Red for code */
+}
+body.light-theme pre {
+	background-color: #e0e0e0;
+}
+body.light-theme blockquote {
+	border-left: 4px solid #007bff;
+	color: #555;
+}
+body.light-theme hr {
+	border-top: 1px solid #ccc;
+}
+
 main {
 	width: 720px;
 	max-width: calc(100% - 2em);
 	margin: auto;
 	padding: 3em 1em;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	margin: 0 0 0.5rem 0;
-	color: rgb(var(--black)); /* Usar Luz Guía para los títulos */
-	line-height: 1.2;
 }
 h1 {
 	font-size: 3.052em;
@@ -82,12 +157,6 @@ h5 {
 strong,
 b {
 	font-weight: 700;
-}
-a {
-	color: var(--oxygen-blue); /* Usar Oxígeno Azul para enlaces */
-}
-a:hover {
-	color: var(--nitrogen-red); /* Usar Nitrógeno Rojo para hover de enlaces */
 }
 p {
 	margin-bottom: 1em;
@@ -110,40 +179,6 @@ img {
 	height: auto;
 	border-radius: 8px;
 }
-code {
-	padding: 2px 5px;
-	background-color: rgba(var(--gray-light), 0.2); /* Ajustar para tema oscuro */
-	border-radius: 2px;
-	color: var(--nitrogen-red); /* Color de código */
-}
-pre {
-	padding: 1.5em;
-	border-radius: 8px;
-	background-color: rgba(var(--gray-light), 0.1); /* Ajustar para tema oscuro */
-}
-pre > code {
-	all: unset;
-}
-blockquote {
-	border-left: 4px solid var(--oxygen-blue); /* Usar Oxígeno Azul para blockquote */
-	padding: 0 0 0 20px;
-	margin: 0px;
-	font-size: 1.333em;
-	color: rgb(var(--gray)); /* Ajustar color de texto */
-}
-hr {
-	border: none;
-	border-top: 1px solid rgba(var(--gray-light), 0.3); /* Ajustar para tema oscuro */
-}
-@media (max-width: 720px) {
-	body {
-		font-size: 18px;
-	}
-	main {
-		padding: 1em;
-	}
-}
-
 .sr-only {
 	border: 0;
 	padding: 0;
@@ -160,4 +195,12 @@ hr {
 	clip-path: inset(50%);
 	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
 	white-space: nowrap;
+}
+@media (max-width: 720px) {
+	body {
+		font-size: 18px;
+	}
+	main {
+		padding: 1em;
+	}
 }

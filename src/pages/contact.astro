@@ -1,0 +1,129 @@
+---
+import BaseHead from '../components/layout/BaseHead.astro';
+import Footer from '../components/layout/Footer.astro';
+import Header from '../components/layout/Header.astro';
+import Breadcrumbs from '../components/breadcrumbs/Breadcrumbs.astro';
+import { SITE_DESCRIPTION } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title="Contacto - MyCn18 Consultoría" description={SITE_DESCRIPTION} />
+		<style>
+			main {
+				background-color: inherit;
+				padding: 4em 2em;
+				text-align: center;
+			}
+			h1 {
+				font-size: 3em;
+				margin-bottom: 1em;
+			}
+			.contact-form-container {
+				max-width: 700px;
+				margin: 0 auto;
+				padding: 2em;
+				border-radius: 8px;
+				box-shadow: var(--box-shadow);
+			}
+			.contact-form-container label {
+				display: block;
+				margin-bottom: 0.5em;
+				color: var(--oxygen-blue);
+				font-weight: bold;
+			}
+			.contact-form-container input[type="text"],
+			.contact-form-container input[type="email"],
+			.contact-form-container textarea {
+				width: 90%;
+				padding: 0.8em;
+				margin-bottom: 1.5em;
+				border: 1px solid var(--gray);
+				border-radius: 4px;
+				background-color: rgba(var(--gray-light), 0.4);
+				font-size: 1em;
+				transition: all 0.3s ease;
+			}
+			.contact-form-container input[type="text"]:focus,
+			.contact-form-container input[type="email"]:focus,
+			.contact-form-container textarea:focus {
+				border-color: var(--oxygen-blue);
+				background-color: rgba(var(--gray), 0.4);
+			}
+			.contact-form-container textarea {
+				min-height: 150px;
+				resize: vertical;
+			}
+			.contact-form-container button {
+				background-color: var(--golden-touch);
+				padding: 1em 2em;
+				border: none;
+				border-radius: 8px;
+				cursor: pointer;
+				font-size: 1.1em;
+				font-weight: bold;
+				transition: background-color 0.3s ease;
+			}
+			.contact-form-container button:hover {
+				background-color: var(--nitrogen-red);
+				color: var(--guide-light);
+			}
+
+			@media (max-width: 768px) {
+				h1 {
+					font-size: 2.5em;
+				}
+				.contact-form-container {
+					padding: 1.5em;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<Breadcrumbs path={Astro.url.pathname} />
+		<main>
+			<h1>Contáctame</h1>
+			<p>Estoy aquí para ayudarte a transformar tus ideas en soluciones robustas con MyCn18. Completa el formulario y me pondré en contacto contigo lo antes posible.</p>
+
+			<div class="contact-form-container">
+				<form action="https://formspree.io/f/mpwkzpee" method="POST" id="contact-form">
+					<label for="name">Nombre:</label>
+					<input type="text" id="name" name="name" required>
+
+					<label for="email">Email:</label>
+					<input type="email" id="email" name="email" required>
+
+					<label for="subject">Asunto:</label>
+					<input type="text" id="subject" name="subject" required>
+
+					<label for="message">Mensaje:</label>
+					<textarea id="message" name="message" required></textarea>
+
+					<button type="submit">Enviar Mensaje</button>
+				</form>
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('contact-form');
+        const subjectInput = document.getElementById('subject');
+        const messageTextarea = document.getElementById('message');
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const subjectParam = urlParams.get('subject');
+        const bodyParam = urlParams.get('body');
+
+        if (subjectParam && subjectInput) {
+            subjectInput.value = subjectParam;
+        }
+        if (bodyParam && messageTextarea) {
+            messageTextarea.value = bodyParam;
+        }
+    });
+</script>
