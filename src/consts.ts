@@ -45,8 +45,11 @@ export const DONATION_LINKS = [
 
 export const PAYPAL_DONATION_NOTE = 'NOTA: Las donaciones a través de PayPal están gestionadas por un familiar directo para optimizar el soporte a MyCn18. Todo el apoyo recibido se destina 100% al mantenimiento y desarrollo de nuevas funciones.';
 
+const REPO_NAME = 'mycn18-consulting'; 
+const BASE_URL = `https://luke1606.github.io/${REPO_NAME}`;
+
 export enum NAV_LINKS {
-	SERVICES = 'services',
-	USE_CASES = 'cases',
-	CONTACT = 'contact',
+	SERVICES = `${BASE_URL}/services`,
+	USE_CASES = `${BASE_URL}/cases`,
+	CONTACT = `${BASE_URL}/contact`,
 };
