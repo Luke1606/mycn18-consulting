@@ -4,11 +4,12 @@ import BaseHead from '../components/layout/BaseHead.astro';
 import Footer from '../components/layout/Footer.astro';
 import Header from '../components/layout/Header.astro';
 import ServiceCard from '../components/cards/ServiceCard.astro';
-import { NAV_LINKS, SITE_DESCRIPTION, SITE_TITLE, DONATION_LINKS, PAYPAL_DONATION_NOTE } from '../consts';
+import { NAV_LINKS, SITE_DESCRIPTION, SITE_TITLE, DONATION_LINKS, BASE_URL } from '../consts';
 import Breadcrumbs from '../components/breadcrumbs/Breadcrumbs.astro';
 import profilePic from '../assets/profile-pic.jpg';
 
-const contactLink = NAV_LINKS.CONTACT;
+
+const contactLink = BASE_URL + NAV_LINKS.CONTACT;
 const githubRepoLink = 'https://github.com/MyCn18-flows';
 ---
 

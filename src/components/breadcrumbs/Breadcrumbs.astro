@@ -1,12 +1,18 @@
 ---
 import HeaderLink from '../layout/HeaderLink.astro';
+import { BASE_URL } from '../../consts';
 
 interface Props {
 	path: string;
 }
 
 const { path } = Astro.props;
-const segments = path.split('/').filter(segment => segment !== '');
+
+const cleanPath = path.startsWith(BASE_URL)
+? path.substring(BASE_URL.length)
+: path;
+
+const segments = cleanPath.split('/').filter(segment => segment !== '');
 
 let currentPath = '';
 const breadcrumbs = segments.map((segment, index) => {

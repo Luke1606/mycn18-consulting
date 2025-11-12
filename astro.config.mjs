@@ -10,11 +10,11 @@ import tailwindcss from '@tailwindcss/vite';
 const REPO_NAME = 'mycn18-consulting'; 
 
 export default defineConfig({
-  base: `/${REPO_NAME}/`, 
+  base: `/${REPO_NAME}`,
   
   output: 'static', 
 
-  site: `https://luke1606.github.io/${REPO_NAME}/`,
+  site: `https://luke1606.github.io/${REPO_NAME}`,
 
   integrations: [mdx(), sitemap()],
 
